@@ -1,44 +1,44 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.example.enums.RoleType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "inventories")
+public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(unique = true, length = 50)
-    private String username;
-
-    private String password;
+    @Column(length = 100)
+    private String name;
 
     @Column(length = 50)
-    private String realName;
+    private String sku;
 
     @Column(length = 20)
-    private String phone;
+    private String category;
 
-    @Column(length = 100)
-    private String email;
+    @Column(length = 50)
+    private String unit;
 
-    private String avatar;
+    private Integer quantity;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private RoleType role;
+    private Integer minStock;
 
-    private Boolean enabled = true;
+    private BigDecimal unitPrice;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+    private String description;
 
     @CreationTimestamp
     private LocalDateTime createTime;
