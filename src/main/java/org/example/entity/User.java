@@ -1,0 +1,29 @@
+package org.example.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import java.time.LocalDateTime;
+
+@Data
+@Entity
+@Table(name = "user")
+public class User {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false, length = 50)
+    private String username;
+    
+    @Column(nullable = false, length = 100)
+    private String email;
+    
+    @Column(name = "created_time")
+    private LocalDateTime createdTime;
+    
+    @PrePersist
+    protected void onCreate() {
+        createdTime = LocalDateTime.now();
+    }
+}
