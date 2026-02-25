@@ -1,27 +1,32 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.example.enums.RoleType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "employees")
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(unique = true, length = 50)
-    private String username;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private String password;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+    @Column(length = 50)
+    private String employeeNo;
 
     @Column(length = 50)
     private String realName;
@@ -29,16 +34,16 @@ public class User {
     @Column(length = 20)
     private String phone;
 
-    @Column(length = 100)
+    @Column(length = 50)
     private String email;
 
-    private String avatar;
-
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(length = 30)
     private RoleType role;
 
-    private Boolean enabled = true;
+    private BigDecimal salary;
+
+    private Boolean active = true;
 
     @CreationTimestamp
     private LocalDateTime createTime;
